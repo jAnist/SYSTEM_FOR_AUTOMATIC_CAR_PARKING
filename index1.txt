@@ -1,0 +1,155 @@
+import first.Show;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import java.util.concurrent.TimeUnit;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class Index
+{
+
+    JFrame f=new JFrame("Enter the data");
+    //String pa[]=new String[3];
+    //String rat,pveh;
+    JLabel l1,l2,l3,l4;
+    JTextArea t1,t2,t3;
+    JButton b1,b2,b3;
+    JComboBox cb,cb1;
+    JRadioButton rb1,rb2;
+    ButtonGroup bg;
+    Show ab=new Show();
+    Index()
+    {
+        f.setSize(900, 600);
+        f.setResizable(false);
+
+        l1 = new JLabel("Enter the Vehcile no");
+        l2 = new JLabel("Enter type of vehcile");
+        l3=new JLabel("Enter to park or unpark");
+        l1.setFont(new Font("Serif",Font.BOLD,18));
+        l2.setFont(new Font("Serif", Font.BOLD, 18));
+        l3.setFont(new Font("Serif",Font.BOLD,18));
+        t1 = new JTextArea();
+        t2 = new JTextArea();
+        b1 = new JButton("Submit");
+        b2=new JButton("Show");
+        b3=new JButton("Clear");
+        t1.setFont(new Font("Serif",Font.BOLD,20));
+        b1.setFont(new Font("Serif",Font.BOLD,20));
+        b2.setFont(new Font("Serif",Font.BOLD,20));
+        b3.setFont(new Font("Serif",Font.BOLD,20));
+        String s1[] = {"X", "L", "M"};
+        cb = new JComboBox(s1);
+        cb.setSelectedIndex(-1);
+        rb1=new JRadioButton("Park");
+        rb2=new JRadioButton("UnPark");
+        bg=new ButtonGroup();
+        bg.add(rb1);
+        bg.add(rb2);
+        cb.setFont(new Font("Serif", Font.BOLD, 20));
+        f.setLayout(null);
+        l1.setOpaque(true);
+        l2.setOpaque(true);
+        l3.setOpaque(true);
+        f.setContentPane(new JLabel(new ImageIcon("C:\\Users\\myema\\IdeaProjects\\abc\\src\\parking.jpg")));
+        l1.setBounds(40, 80, 190, 40);
+        l3.setBounds(40, 150, 190, 40);
+        t1.setBounds(300, 80, 180, 40);
+        l2.setBounds(40, 250, 190, 40);
+        cb.setBounds(300, 250, 180, 40);
+        rb1.setBounds(300, 150, 180, 40);
+        rb2.setBounds(300, 200, 180, 40);
+        b1.setBounds(150, 350, 150, 40);
+        b2.setBounds(350, 350, 150, 40);
+        b3.setBounds(550, 350, 150, 40);
+        l1.setBackground(Color.GREEN);
+        l3.setBackground(Color.GREEN);
+        l1.setForeground(Color.BLUE);
+        l3.setForeground(Color.BLUE);
+        t1.setBackground(Color.PINK);
+        b1.setBackground(Color.orange);
+        b2.setBackground(Color.orange);
+        b3.setBackground(Color.orange);
+        l2.setBackground(Color.GREEN);
+        cb.setBackground(Color.PINK);
+        f.add(l1);
+        f.add(l2);
+        f.add(l3);
+        f.add(t1);
+        f.add(cb);
+        f.add(b1);
+        f.add(b2);
+        f.add(b3);
+        f.add(rb1);
+        f.add(rb2);
+        b1.addActionListener(new Myhandler());
+        b2.addActionListener(new Myhandler());
+        b3.addActionListener(new Myhandler());
+        f.setVisible(true);
+    }
+    public class Myhandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            String p;
+            if(e.getSource()==b1)
+            {
+                 p = t1.getText();
+                String q = cb.getSelectedItem().toString();
+                if(rb1.isSelected())
+                {
+                    int k = ab.fill(p, q);
+                    if(k==0)
+                    {
+                        JOptionPane.showMessageDialog(f,"Sorry space is not empty ");
+                    }
+                    else if(k==1)
+                    {
+                        JOptionPane.showMessageDialog(f,"Vehcile Allocated ");
+                    }
+                    else if(k==-1)
+                    {
+                        JOptionPane.showMessageDialog(f,"Vehcile of this number is already Allocated ");
+                    }
+                }
+                else
+                {
+                    String pa[]=new String[3];
+                    pa=ab.empty(p,q);
+                    //pveh=new String(p);
+                    String k1=pa[0];
+                    if(k1.equals("ea"))
+                    {
+                        JOptionPane.showMessageDialog(f,"No Vehcile of that number");
+                    }
+                    else
+                    {
+                        double rate=Double.parseDouble(pa[0]);
+                        rate=0.001*rate;
+                        String rat=Double.toString(rate);
+                        JOptionPane.showMessageDialog(f,"Vehcile number - "+p+"\n"+"Parking time - "+pa[1]+"\n"+"Unparking time - "+pa[2]+"\n"+"Total cost - "+rat);
+                        connect ct = new connect();
+                        ct.enterData(p,pa[1],pa[2],rat);
+                    }
+                }
+            }
+            else if(e.getSource()==b2)
+            {
+                ab.see();
+            }
+            else
+            {
+                t1.setText(null);
+                cb.setSelectedIndex(-1);
+            }
+        }
+    }
+    public static void main(String args[])
+    {
+        Index ab1=new Index();
+        //connect ct = new connect();
+        //ct.enterData();
+       // ct.getData();
+    }
+}

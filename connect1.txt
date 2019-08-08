@@ -1,0 +1,51 @@
+import java.sql.*;
+
+
+public class connect {
+    private Connection con;
+    private Statement st;
+    private ResultSet rs;
+    private PreparedStatement ps;
+
+    public connect() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/parking", "root", "");
+            st = con.createStatement();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+
+    public void enterData(String a1,String a2,String a3,String a4) {
+        try {
+            String query = "INSERT INTO Parking Activity VALUES (?,?,?,?);";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, a1);
+            ps.setString(2, a2);
+            ps.setString(3, a3);
+            ps.setString(4, a4);
+// execute insert SQL stetement
+            ps.executeUpdate();
+            System.out.println("Enter for DataBase");
+        } catch (ClassNotFoundException ex) {
+            System.out.println(ex);
+        }}
+        public void getData () {
+            try {
+                String query = "Select * from Parking Activity";
+                rs = st.executeQuery(query);
+                System.out.println("Records from DataBase");
+                while (rs.next()) {
+                    String Vehicle_No = rs.getString(1);
+                    String in_Time = rs.getString(2);
+                    String out_Time = rs.getString(3);
+                    String Cost = rs.getString(4);
+                    System.out.println("Vehicle No. : " + Vehicle_No + "In Time : " + in_Time + "Out Time" + out_Time + "Cost" + Cost);
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }

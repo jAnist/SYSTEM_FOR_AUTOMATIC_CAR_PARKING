@@ -1,0 +1,240 @@
+package first;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+public class Show {
+    JFrame f1;
+    JTextArea t1[]=new JTextArea[100];
+    long time[]=new long[100];
+    StringBuffer tima[]=new StringBuffer[100];
+    Calendar cal=Calendar.getInstance();
+    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+    int s111,la,ha;
+    int p=0;
+    public Show()
+    {
+        f1=new JFrame("Parking slot");
+        f1.setLayout(null);
+        f1.setSize(800,600);
+        f1.setResizable(false);
+        f1.getContentPane().setBackground(Color.gray);
+        //f1.pack();//Packs the size of frame to intial zero
+        int i,j,u;
+        String s1;
+        for(j=0;j<5;j++)
+        {
+            for (i = 0; i < 15; i++)
+            {
+                u=15*j+i+1;
+                if(u<=30)
+                {
+                    s1=Integer.toString(p+1);
+                    t1[p]= new JTextArea("Slot " + s1);
+                    t1[p].setBounds(120 * j, 35 * i, 80, 33);
+                    t1[p].setBackground(Color.GREEN);
+                    f1.add(t1[p]);
+                    p++;
+                }
+                else if(u<55 && i<9)
+                {
+                    s1=Integer.toString(p+1);
+                    t1[p] = new JTextArea("Slot " + s1);
+                    t1[p].setBounds(240+160*(j-2), 58* i, 120, 56);
+                    t1[p].setBackground(Color.GREEN);
+                    f1.add(t1[p]);
+                    p++;
+                }
+                else if(u<67 && i<6)
+                {
+                    s1=Integer.toString(p+1);
+                    t1[p] = new JTextArea("Slot " + s1);
+                    t1[p].setBounds(580+180*(j-4), 87 * i, 160, 85);
+                    t1[p].setBackground(Color.GREEN);
+                    f1.add(t1[p]);
+                    p++;
+                }
+            }
+        }
+    }
+    public void see()
+    {
+        f1.setVisible(true);
+    }
+    public int fill(String pa,String q)
+    {
+        int i,j,u,k;
+        u=0;
+        i=4;
+        for(i=0;i<p;i++)
+        {
+            if(t1[i].getBackground()==Color.RED && t1[i].getText().equals(pa))
+            {
+                return -1;
+            }
+        }
+        if(q.equals("X"))
+        {
+            for(i=0;i<30;i++)
+            {
+                if(t1[i].getBackground()==Color.GREEN)
+                {
+                    u=1;
+                    t1[i].setText(null);
+                    t1[i].setText(pa);
+                    t1[i].setBackground(Color.RED);
+                    time[i]=System.currentTimeMillis();
+                    tima[i]=new StringBuffer();
+                    Calendar cal=Calendar.getInstance();
+                    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+                    tima[i].append(sdf.format(cal.getTime()));
+                    break;
+                }
+            }
+        }
+        if(q.equals("L"))
+        {
+            for(i=30;i<48;i++)
+            {
+                if(t1[i].getBackground()==Color.GREEN)
+                {
+                    u=1;
+                    t1[i].setText(null);
+                    t1[i].setText(pa);
+                    t1[i].setBackground(Color.RED);
+                    time[i]=System.currentTimeMillis();
+                    tima[i]=new StringBuffer();
+                    Calendar cal=Calendar.getInstance();
+                    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+                    tima[i].append(sdf.format(cal.getTime()));
+                    break;
+                }
+            }
+        }
+        if(q.equals("M"))
+        {
+            for(i=48;i<54;i++)
+            {
+                if(t1[i].getBackground()==Color.GREEN)
+                {
+                    u=1;
+                    t1[i].setText(null);
+                    t1[i].setText(pa);
+                    t1[i].setBackground(Color.RED);
+                    time[i]=System.currentTimeMillis();
+                    tima[i]=new StringBuffer();
+                    Calendar cal=Calendar.getInstance();
+                    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+                    tima[i].append(sdf.format(cal.getTime()));
+                    break;
+                }
+            }
+        }
+        return u;
+    }
+    public String[] empty(String p,String q)
+    {
+        long t=-1;
+        String se[]=new String[3];
+        int i,j,k;
+        String s1;
+        if(q=="X")
+        {
+            for(i=0;i<30;i++)
+            {
+                if(t1[i].getBackground()==Color.RED && t1[i].getText().equals(p))
+                {
+                    s1 = Integer.toString(i + 1);
+                    t1[i].setText(null);
+                    t1[i].setText("Slot " + s1);
+                    t1[i].setBackground(Color.GREEN);
+                    t = System.currentTimeMillis() - time[i];
+                    se[1]=tima[i].toString();
+                    Calendar cal=Calendar.getInstance();
+                    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+                    se[2]=sdf.format(cal.getTime());
+                    break;
+                }
+            }
+        }
+        if(q=="L")
+        {
+            for(i=30;i<48;i++)
+            {
+                if(t1[i].getBackground()==Color.RED && t1[i].getText().equals(p))
+                {
+                    s1=Integer.toString(i+1);
+                    t1[i].setText(null);
+                    t1[i].setText("Slot " + s1);
+                    t1[i].setBackground(Color.GREEN);
+                    t=System.currentTimeMillis()-time[i];
+                    se[1]=tima[i].toString();
+                    Calendar cal=Calendar.getInstance();
+                    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+                    se[2]=sdf.format(cal.getTime());
+                    break;
+                }
+            }
+        }
+        if(q=="M")
+        {
+            for(i=48;i<54;i++)
+            {
+                if(t1[i].getBackground()==Color.RED && t1[i].getText().equals(p))
+                {
+                    s1=Integer.toString(i+1);
+                    t1[i].setText(null);
+                    t1[i].setText("Slot " + s1);
+                    t1[i].setBackground(Color.GREEN);
+                    t=System.currentTimeMillis()-time[i];
+                    se[1]=tima[i].toString();
+                    Calendar cal=Calendar.getInstance();
+                    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm:ss");
+                    se[2]=sdf.format(cal.getTime());
+                    break;
+                }
+            }
+        }
+        if(t==-1)
+        {
+            se[0]="ea";
+            se[1]="mkm";
+            se[2]="njk";
+        }
+        else
+        {
+            String rate =Double.toString(t);
+            se[0]=rate;
+        }
+        System.out.println(se[0]);
+        System.out.println(se[1]);
+        System.out.println(se[2]);
+        return se;
+    }
+    public static void main(String args[])
+    {
+        try {
+            Show ab = new Show();
+            ab.see();
+            TimeUnit.SECONDS.sleep(2);
+            ab.fill("JKFNJB", "X");
+            ab.see();
+            TimeUnit.SECONDS.sleep(2);
+            ab.fill("JKFNDFHDB", "L");
+            ab.see();
+            TimeUnit.SECONDS.sleep(2);
+            ab.empty("JKFNJB", "X");
+            ab.see();
+            TimeUnit.SECONDS.sleep(2);
+            ab.empty("JKFNDFHDB", "L");
+            ab.see();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+}
